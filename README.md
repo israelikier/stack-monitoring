@@ -1,4 +1,12 @@
 # stack-monitoring
+
+First, create a directory to tempo and change owner permissions:
+
+```console
+mkdir tempo-data/
+sudo chown 10001:10001 tempo-data/
+```
+
 To start stack monitoring:
 
 ```bash
