@@ -12,6 +12,7 @@ x-logging:
 services:
   read:
     image: grafana/loki:3.0.0
+    restart: unless-stopped
     command: "-config.file=/etc/loki/config.yaml -target=read"
     ports:
       - 3101:3100
@@ -31,6 +32,7 @@ services:
 
   write:
     image: grafana/loki:3.0.0
+    restart: unless-stopped
     command: "-config.file=/etc/loki/config.yaml -target=write"
     ports:
       - 3102:3100
@@ -50,6 +52,7 @@ services:
 
   alloy:
     image: grafana/alloy:latest
+    restart: unless-stopped
     volumes:
       - ./configs/alloy-local-config.yaml:/etc/alloy/config.alloy:ro
       - /var/run/docker.sock:/var/run/docker.sock
@@ -63,6 +66,7 @@ services:
 
   minio:
     image: minio/minio
+    restart: unless-stopped
     entrypoint:
       - sh
       - -euc
@@ -89,6 +93,7 @@ services:
 
   backend:
     image: grafana/loki:3.0.0
+    restart: unless-stopped
     volumes:
       - ./configs/loki/loki-config.yaml:/etc/loki/config.yaml
     ports:
@@ -103,6 +108,7 @@ services:
 
   gateway:
     image: nginx:latest
+    restart: unless-stopped
     depends_on:
       - read
       - write
@@ -173,6 +179,7 @@ services:
 
   flog:
     image: mingrammer/flog
+    restart: unless-stopped
     command: -f json -d 200ms -l
     networks:
       - monitoring
